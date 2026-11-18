@@ -1,0 +1,114 @@
+﻿
+@model IEnumerable<UniversityProject_2.Models.Student>
+
+@{
+    ViewBag.Title = "Students";
+}
+
+<h2>Students</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.ActionLink("Student Name", "Index",
+                new { sortOrder = ViewBag.NameSortParm, page = 1 })
+        </th>
+
+        <th>
+            @Html.ActionLink("Address", "Index",
+                new { sortOrder = ViewBag.AddressSortParm, page = 1 })
+        </th>
+
+        <th>
+            @Html.ActionLink("Campus ID", "Index",
+                new { sortOrder = ViewBag.CampusSortParm, page = 1 })
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CampusID)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ID })
+            </td>
+        </tr>
+    }
+</table>
+
+@if (ViewBag.TotalPages > 0)
+{
+    <div>
+        <span>
+            Page @ViewBag.CurrentPage of @ViewBag.TotalPages
+        </span>
+    </div>
+
+    <ul class="pagination">
+
+        @if (ViewBag.CurrentPage > 1)
+        {
+            <li>
+                @Html.ActionLink("Previous", "Index",
+                    new
+                    {
+                        sortOrder = ViewBag.CurrentSort,
+                        page = ViewBag.CurrentPage - 1
+                    })
+            </li>
+        }
+
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            if (i == ViewBag.CurrentPage)
+            {
+                <li class="active">
+                    <span>@i</span>
+                </li>
+            }
+            else
+            {
+                <li>
+                    @Html.ActionLink(i.ToString(), "Index",
+                        new
+                        {
+                            sortOrder = ViewBag.CurrentSort,
+                            page = i
+                        })
+                </li>
+            }
+        }
+
+        @if (ViewBag.CurrentPage < ViewBag.TotalPages)
+        {
+            <li>
+                @Html.ActionLink("Next", "Index",
+                    new
+                    {
+                        sortOrder = ViewBag.CurrentSort,
+                        page = ViewBag.CurrentPage + 1
+                    })
+            </li>
+        }
+
+    </ul>
+}
